@@ -26,10 +26,10 @@ module.exports = {
     'class-methods-use-this': 'off',
     'no-useless-constructor': 'off',
 
+    'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
     'import/no-extraneous-dependencies': 'off',
-    'import/extensions': ['error', 'ignorePackages', { ts: 'never' }],
 
     'node/no-missing-import': 'off',
     'node/no-unpublished-import': 'off',
