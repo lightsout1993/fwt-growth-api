@@ -1,8 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import type { IUser } from '@/user/user.interface';
-
 import { UserService } from '@/user/user.service';
 import { TokenService } from '@/token/token.service';
 
