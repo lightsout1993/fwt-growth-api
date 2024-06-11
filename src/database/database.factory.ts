@@ -1,6 +1,6 @@
 import type { ConfigService } from '@nestjs/config';
 
-const databaseFactory = (configService: ConfigService) => ({
+export const databaseFactory = (configService: ConfigService) => ({
   host: configService.get('database.host'),
   port: configService.get('database.port'),
   type: configService.get('database.type'),
@@ -9,5 +9,3 @@ const databaseFactory = (configService: ConfigService) => ({
   password: configService.get('database.password'),
   username: configService.get('database.username'),
 });
-
-export default databaseFactory;

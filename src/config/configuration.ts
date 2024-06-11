@@ -1,9 +1,9 @@
-import type IConfig from './config.interface';
+import type { IConfig } from './config.interface';
 
-import databaseConfig from './database.config';
+import { jwtConfig } from './jwt.config';
+import { databaseConfig } from './database.config';
 
-const configuration = (): IConfig => ({
+export const configuration = (): IConfig => ({
+  jwt: jwtConfig(),
   database: databaseConfig(),
 });
-
-export default configuration;

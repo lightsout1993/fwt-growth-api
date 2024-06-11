@@ -7,8 +7,12 @@ export interface IDatabaseConfig {
   username: string;
 }
 
-interface IConfig {
-  database: IDatabaseConfig;
+export interface IJWTConfig {
+  secret: string;
+  expiresIn: string;
 }
 
-export default IConfig;
+export interface IConfig {
+  jwt: IJWTConfig;
+  database: IDatabaseConfig;
+}
