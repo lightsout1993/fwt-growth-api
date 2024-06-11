@@ -1,7 +1,7 @@
 import { CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
 
 @Entity()
-class BaseEntity {
+export class BaseEntity {
   @CreateDateColumn({ type: 'timestamp', default: () => 'now()' })
   public created_at: Date;
 
@@ -12,5 +12,3 @@ class BaseEntity {
   })
   public updated_at: Date;
 }
-
-export default BaseEntity;

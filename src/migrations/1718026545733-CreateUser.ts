@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-import Role from '@/role/role.enum';
+import { Role } from '@/role/role.enum';
 
 import createTable from './utils/createTable';
 
@@ -8,9 +8,9 @@ export class CreateUser1718026545733 implements MigrationInterface {
   name = 'CreateUser1718026545733';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `CREATE TYPE "public"."user_role_enum" AS ENUM('manager', 'techlead', 'developer')`,
-    );
+    // await queryRunner.query(
+    //   `CREATE TYPE "public"."user_role_enum" AS ENUM('manager', 'techlead', 'developer')`,
+    // );
 
     const table = createTable({
       name: 'user',
@@ -20,7 +20,21 @@ export class CreateUser1718026545733 implements MigrationInterface {
           type: 'varchar',
         },
         {
+          name: 'firstname',
+          type: 'varchar',
+          isNullable: true,
+        },
+        {
+          name: 'lastname',
+          type: 'varchar',
+          isNullable: true,
+        },
+        {
           name: 'password',
+          type: 'varchar',
+        },
+        {
+          name: 'salt',
           type: 'varchar',
         },
         {
