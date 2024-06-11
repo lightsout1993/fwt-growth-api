@@ -2,9 +2,9 @@ import { Table, TableColumnOptions, TableOptions } from 'typeorm';
 
 const id: TableColumnOptions = {
   name: 'id',
-  type: 'int',
+  type: 'serial',
   isPrimary: true,
-  generationStrategy: 'identity',
+  generationStrategy: 'increment',
 };
 
 const updatedAt: TableColumnOptions = {

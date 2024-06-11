@@ -1,10 +1,10 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import User from '@/user/user.entity';
-import BaseEntity from '@/common/base.entity';
+import { User } from '@/user/user.entity';
+import { BaseEntity } from '@/common/base.entity';
 
 @Entity()
-class Token extends BaseEntity {
+export class Token extends BaseEntity {
   @PrimaryGeneratedColumn('identity', { generatedIdentity: 'ALWAYS' })
   id: number;
 
@@ -17,5 +17,3 @@ class Token extends BaseEntity {
   @ManyToOne(() => User, (user) => user.tokens)
   user: User;
 }
-
-export default Token;
