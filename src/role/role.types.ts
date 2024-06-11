@@ -1,7 +1,7 @@
-import RoleEnum from './role.enum';
+import { Role } from './role.enum';
 
 interface UserWithRole {
-  role: RoleEnum;
+  role: Role;
 }
 
 export interface RequestWithRole {
