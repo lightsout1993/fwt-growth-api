@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
@@ -53,6 +53,6 @@ export class UserService {
   }
 
   async findOneByEmail(email: string) {
-    return this.usersRepository.findOneBy({ email });
+    return this.usersRepository.findOneBy({ email: Equal(email) });
   }
 }

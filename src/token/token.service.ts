@@ -11,7 +11,7 @@ export class TokenService {
   constructor(@InjectRepository(Token) private tokenRepository: Repository<Token>) {}
 
   async create(id: number, tokenData: IToken) {
-    const tokens = await this.tokenRepository.find({ where: { user: { id } } });
+    const tokens = await this.tokenRepository.find({ where: { user: { id: Equal(id) } } });
 
     if (tokens.length >= 5) {
       this.tokenRepository.delete({ refreshToken: tokens[0].refreshToken });
