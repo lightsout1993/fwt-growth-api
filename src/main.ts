@@ -15,6 +15,7 @@ const bootstrap = async () => {
   const app = await createApp<NestFastifyApplication>(adapter);
 
   await app.register(fastifyCookie);
+  await app.enableCors();
 
   await app.listen(3000);
 };

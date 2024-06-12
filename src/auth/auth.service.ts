@@ -80,7 +80,7 @@ export class AuthService {
 
   private createTokens(jwtPayload: JwtPayload): { accessToken: string; refreshToken: string } {
     const accessToken = this.jwtService.sign(jwtPayload);
-    const refreshToken = this.jwtService.sign(jwtPayload);
+    const refreshToken = this.jwtService.sign(jwtPayload, { expiresIn: '3d' });
 
     // Для избежания коллизии токенов регенерируем их, если они одинаковые
     return accessToken !== refreshToken

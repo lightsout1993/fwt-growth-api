@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -21,7 +21,8 @@ export class TokenService {
   }
 
   async check({ fingerprint, refreshToken }: Partial<IToken>) {
-    const token = await this.tokenRepository.findOneBy({ refreshToken, fingerprint });
+    const token = await this.tokenRepository.findOneBy({ refreshToken: Equal(refreshToken!) });
+    console.log({ refreshToken, token });
 
     if (!token) return false;
     if (token.fingerprint !== fingerprint) this.tokenRepository.delete(token);

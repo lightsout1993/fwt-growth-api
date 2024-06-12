@@ -3,6 +3,7 @@ import { Req, Res, Body, Post, Controller, ValidationPipe } from '@nestjs/common
 
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { clearCookie, COOKIE_KEY, setCookie } from './token.cookie';
 import { RefreshCredentialsDto } from './dto/refresh-credentials.dto';
 
 @Controller('auth')
@@ -16,8 +17,7 @@ export class AuthController {
     @Body(ValidationPipe) authCredentials: AuthCredentialsDto,
   ) {
     const { accessToken, refreshToken } = await this.authService.register(authCredentials);
-
-    this.cookie(reply, refreshToken);
+    setCookie(reply, refreshToken);
 
     return { accessToken };
   }
@@ -28,8 +28,7 @@ export class AuthController {
     @Body(ValidationPipe) loginCredentials: AuthCredentialsDto,
   ) {
     const { accessToken, refreshToken } = await this.authService.login(loginCredentials);
-
-    this.cookie(reply, refreshToken);
+    setCookie(reply, refreshToken);
 
     return { accessToken };
   }
@@ -40,28 +39,19 @@ export class AuthController {
     @Res({ passthrough: true }) reply: FastifyReply,
     @Body(ValidationPipe) { fingerprint }: RefreshCredentialsDto,
   ) {
-    const oldRefreshToken = request.cookies.refreshToken;
+    const token = request.cookies[COOKIE_KEY];
 
-    const { accessToken, refreshToken } = await this.authService.refresh(
-      fingerprint,
-      oldRefreshToken,
-    );
-
-    this.cookie(reply, refreshToken);
+    const { accessToken, refreshToken } = await this.authService.refresh(fingerprint, token);
+    setCookie(reply, refreshToken);
 
     return { accessToken };
   }
 
   @Post('logout')
   async logout(@Req() request: FastifyRequest, @Res({ passthrough: true }) reply: FastifyReply) {
-    const refreshToken = request.cookies.refreshToken as string;
+    const token = request.cookies[COOKIE_KEY];
 
-    this.authService.logout(refreshToken);
-
-    reply.clearCookie('refreshToken', { httpOnly: true });
-  }
-
-  private cookie(reply: FastifyReply, refreshToken: string) {
-    reply.cookie('refreshToken', refreshToken, { httpOnly: true });
+    this.authService.logout(token);
+    clearCookie(reply);
   }
 }
