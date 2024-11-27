@@ -1,6 +1,4 @@
-import type { ValidationArguments } from 'class-validator/types/validation/ValidationArguments';
-
-export const isStringError = (field: ValidationArguments) =>
+export const isStringError = (field: { property: string }) =>
   `Поле ${field.property} должно быть строкой.`;
 
 export const invalidEmailError = 'Невалидный email.';

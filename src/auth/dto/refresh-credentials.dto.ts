@@ -4,5 +4,5 @@ import { isStringError } from '@/common/validate.messages';
 
 export class RefreshCredentialsDto {
   @IsString({ message: isStringError })
-  fingerprint: string;
+  fingerprint: never;
 }

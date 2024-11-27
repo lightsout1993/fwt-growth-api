@@ -1,5 +1,5 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import { Req, Res, Body, Post, Controller, ValidationPipe } from '@nestjs/common';
+import { Req, Res, Body, Post, Controller, ValidationPipe, HttpCode } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
@@ -48,10 +48,11 @@ export class AuthController {
   }
 
   @Post('logout')
+  @HttpCode(200)
   async logout(@Req() request: FastifyRequest, @Res({ passthrough: true }) reply: FastifyReply) {
     const token = request.cookies[COOKIE_KEY];
 
-    this.authService.logout(token);
     clearCookie(reply);
+    if (token) await this.authService.logout(token);
   }
 }

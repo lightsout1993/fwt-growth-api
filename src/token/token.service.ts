@@ -22,7 +22,6 @@ export class TokenService {
 
   async check({ fingerprint, refreshToken }: Partial<IToken>) {
     const token = await this.tokenRepository.findOneBy({ refreshToken: Equal(refreshToken!) });
-    console.log({ refreshToken, token });
 
     if (!token) return false;
     if (token.fingerprint !== fingerprint) this.tokenRepository.delete(token);

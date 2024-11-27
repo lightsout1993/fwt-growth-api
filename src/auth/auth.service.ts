@@ -64,8 +64,8 @@ export class AuthService {
     return tokens;
   }
 
-  async logout(refreshToken?: string) {
-    if (refreshToken) await this.tokenService.remove(refreshToken);
+  async logout(refreshToken: string) {
+    await this.tokenService.remove(refreshToken);
   }
 
   async validateUser({ email }: JwtPayload) {
@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   private createTokens(jwtPayload: JwtPayload): { accessToken: string; refreshToken: string } {
-    const accessToken = this.jwtService.sign(jwtPayload);
+    const accessToken = this.jwtService.sign(jwtPayload, { expiresIn: '1s' });
     const refreshToken = this.jwtService.sign(jwtPayload, { expiresIn: '3d' });
 
     // Для избежания коллизии токенов регенерируем их, если они одинаковые
