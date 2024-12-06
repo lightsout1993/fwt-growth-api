@@ -2,21 +2,23 @@ import { Table, TableColumnOptions, TableOptions } from 'typeorm';
 
 const id: TableColumnOptions = {
   name: 'id',
-  type: 'serial',
+  type: 'int',
   isPrimary: true,
+  isGenerated: true,
   generationStrategy: 'increment',
 };
 
 const updatedAt: TableColumnOptions = {
-  name: 'updated_at',
+  name: 'updatedAt',
   type: 'timestamp',
-  default: 'now()',
+  default: 'CURRENT_TIMESTAMP',
+  onUpdate: 'CURRENT_TIMESTAMP',
 };
 
 const createdAt: TableColumnOptions = {
-  name: 'created_at',
+  name: 'createdAt',
   type: 'timestamp',
-  default: 'now()',
+  default: 'CURRENT_TIMESTAMP',
 };
 
 const createTable = (options: TableOptions) => {

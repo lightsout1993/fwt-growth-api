@@ -8,16 +8,13 @@ export class CreateUser1718026545733 implements MigrationInterface {
   name = 'CreateUser1718026545733';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // await queryRunner.query(
-    //   `CREATE TYPE "public"."user_role_enum" AS ENUM('manager', 'techlead', 'developer')`,
-    // );
-
     const table = createTable({
       name: 'user',
       columns: [
         {
           name: 'email',
           type: 'varchar',
+          isUnique: true,
         },
         {
           name: 'firstname',
@@ -39,8 +36,9 @@ export class CreateUser1718026545733 implements MigrationInterface {
         },
         {
           name: 'role',
-          type: '"public"."user_role_enum"',
-          default: `'${Role.DEVELOPER}'`,
+          type: 'enum',
+          default: `'${Role.TECHLEAD}'`,
+          enum: [Role.MANAGER, Role.TECHLEAD, Role.DEVELOPER],
         },
       ],
     });
@@ -50,6 +48,5 @@ export class CreateUser1718026545733 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('user');
-    await queryRunner.query(`DROP TYPE "public"."user_role_enum"`);
   }
 }

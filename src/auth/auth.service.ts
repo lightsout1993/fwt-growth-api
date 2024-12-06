@@ -5,7 +5,6 @@ import { UserService } from '@/user/user.service';
 import { TokenService } from '@/token/token.service';
 
 import type { JwtPayload } from './jwt/jwt-payload.interface';
-
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
 @Injectable()

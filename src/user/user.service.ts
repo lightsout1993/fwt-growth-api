@@ -3,8 +3,7 @@ import { Equal, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
-import type { IUser } from './user.interface';
-
+import type { IUserCreate, IUserRegister } from './user.types';
 import { User } from './user.entity';
 
 @Injectable()
@@ -14,29 +13,25 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async create(userData: IUser) {
-    const user = Object.assign(new User(), userData);
-
+  async create(user: IUserCreate) {
     return this.usersRepository.save(user);
   }
 
   // TODO: убрать метод и создать метод добавления новых пользователей
-  async register(userData: IUser) {
-    const { email, password } = userData;
+  async register(user: IUserRegister) {
+    const existingUser = await this.findOneByEmail(user.email);
 
-    const user = await this.findOneByEmail(email);
-
-    if (user) {
+    if (existingUser) {
       throw new UnauthorizedException('Такой email уже существует!');
     }
 
     const salt = await bcrypt.genSalt();
-    const passwordHash = await bcrypt.hash(password, salt);
+    const passwordHash = await bcrypt.hash(user.password, salt);
 
-    return this.create({ ...userData, salt, password: passwordHash });
+    return this.create({ ...user, salt, password: passwordHash });
   }
 
-  async validateUserPassword({ email, password }: IUser) {
+  async validateUserPassword({ email, password }: IUserRegister) {
     const user = await this.findOneByEmail(email);
 
     if (!user) {

@@ -1,27 +1,39 @@
-import { IsEnum, IsOptional, IsString, Matches, MinLength } from 'class-validator';
+import {
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsStrongPassword,
+  Matches,
+  MinLength,
+} from 'class-validator';
 
 import { Role } from '@/role/role.enum';
-import {
-  isStringError,
-  invalidEmailError,
-  incorrectUserRoleError,
-  minLengthPasswordError,
-} from '@/common/validate.messages';
 import { EMAIL_REGEXP, MIN_PASSWORD_LENGTH } from '@/common/common.constants';
+import {
+  stringError,
+  incorrectError,
+  invalidError,
+  shortError,
+  strongPasswordError,
+} from '@/common/validate.messages';
 
 export class AuthCredentialsDto {
-  @IsString({ message: isStringError })
-  @Matches(EMAIL_REGEXP, { message: invalidEmailError })
+  @IsString({ message: stringError() })
+  @Matches(EMAIL_REGEXP, { message: invalidError() })
   email: string;
 
-  @IsString({ message: isStringError })
-  @MinLength(MIN_PASSWORD_LENGTH, { message: minLengthPasswordError })
+  @IsString({ message: stringError() })
+  @MinLength(MIN_PASSWORD_LENGTH, { message: shortError(MIN_PASSWORD_LENGTH) })
+  @IsStrongPassword(
+    { minUppercase: 1, minNumbers: 1, minSymbols: 1 },
+    { message: strongPasswordError },
+  )
   password: string;
 
-  @IsString({ message: isStringError })
+  @IsString({ message: stringError() })
   fingerprint: string;
 
   @IsOptional()
-  @IsEnum(Role, { message: incorrectUserRoleError })
+  @IsEnum(Role, { message: incorrectError() })
   role?: Role;
 }
