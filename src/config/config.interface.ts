@@ -1,5 +1,5 @@
 export interface IDatabaseConfig {
-  type: 'postgres';
+  type: 'mysql';
   host: string;
   port: number;
   database: string;
